@@ -1,28 +1,28 @@
 # lumen-2048
 
-The 2048 game app for **AspisOS**, a capability-based, no-ambient-authority
+The 2048 game app for **LoricaOS**, a capability-based, no-ambient-authority
 x86-64 operating system built on the from-scratch
-[Aegis](https://github.com/AspisOS/Aegis) kernel.
+[Aegis](https://github.com/LoricaOS/Aegis) kernel.
 
 2048 is the classic sliding-tile puzzle: a 4x4 board of powers of two that you
 slide and merge to reach the 2048 tile. It is a leaf component of the Lumen
-desktop, distributed as a [herald](https://github.com/AspisOS/AspisOS) package,
+desktop, distributed as a [herald](https://github.com/LoricaOS/LoricaOS) package,
 and runs as an **external client** of the
-[lumen](https://github.com/AspisOS/lumen) compositor — it connects to
+[lumen](https://github.com/LoricaOS/lumen) compositor — it connects to
 `/run/lumen.sock` over the Lumen window protocol and is handed a shared-memory
 buffer to draw into, rather than being an in-process compositor built-in.
 
 ## Where 2048 fits
 
-AspisOS is decomposed into independent repositories. 2048 sits at the leaf of
+LoricaOS is decomposed into independent repositories. 2048 sits at the leaf of
 the graphical stack:
 
 | Repo | Role |
 |------|------|
-| [`AspisOS/Aegis`](https://github.com/AspisOS/Aegis) | The kernel: capability model, `AF_UNIX` sockets, `memfd`, the syscalls the desktop runs on. |
-| [`AspisOS/lumen`](https://github.com/AspisOS/lumen) | The compositor / display server. Owns the framebuffer; every GUI app is one of its clients. |
-| [`AspisOS/glyph`](https://github.com/AspisOS/glyph) | The GUI toolkit 2048 links against: the software renderer (`draw_*`, `font_*`), theme/accent values, and the client side of the Lumen protocol (`lumen_client.h`). |
-| `AspisOS/lumen-2048` | **This repo.** The 2048 game app. |
+| [`LoricaOS/Aegis`](https://github.com/LoricaOS/Aegis) | The kernel: capability model, `AF_UNIX` sockets, `memfd`, the syscalls the desktop runs on. |
+| [`LoricaOS/lumen`](https://github.com/LoricaOS/lumen) | The compositor / display server. Owns the framebuffer; every GUI app is one of its clients. |
+| [`LoricaOS/glyph`](https://github.com/LoricaOS/glyph) | The GUI toolkit 2048 links against: the software renderer (`draw_*`, `font_*`), theme/accent values, and the client side of the Lumen protocol (`lumen_client.h`). |
+| `LoricaOS/lumen-2048` | **This repo.** The 2048 game app. |
 
 ## What it does
 
@@ -53,7 +53,7 @@ Grounded in `src/main.c`:
 
 ## Capabilities
 
-AspisOS grants a process no ambient authority; it can touch the system only
+LoricaOS grants a process no ambient authority; it can touch the system only
 through capabilities declared for it at exec time. 2048's policy
 (`pkg/etc/aegis/caps.d/2048`) is the baseline:
 
@@ -75,7 +75,7 @@ the session.
 ## Building
 
 2048 builds with a musl cross-compiler against a **pinned**
-[glyph](https://github.com/AspisOS/glyph) toolkit artifact (the GUI libraries it
+[glyph](https://github.com/LoricaOS/glyph) toolkit artifact (the GUI libraries it
 links), then packs a signed herald package.
 
 ```sh
@@ -122,6 +122,6 @@ GLYPH_VERSION   the pinned glyph toolkit version it builds against
 ## Dependencies
 
 `depends=lumen` — 2048 is an external client of the compositor, so installing it
-pulls [lumen](https://github.com/AspisOS/lumen). lumen also ships the desktop
+pulls [lumen](https://github.com/LoricaOS/lumen). lumen also ships the desktop
 fonts (Inter, JetBrains Mono), so 2048 inherits them transitively; there is no
 separate font package.
